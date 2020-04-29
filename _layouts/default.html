@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+{% include head.html %}
+
+<body>
+    <div id="header_wrap" class="outer">
+        {% include header.html %}
+    </div>
+    <div id="main_content_wrap" class="outer">
+        {% include main.html %}
+    </div>
+    <div id="footer_wrap" class="outer">
+        {% include footer.html %}
+    </div>
+    {%- include bootstrap.html -%}
+
+    {%- if jekyll.environment == 'production' and site.google_analytics -%}
+    {%- include google-analytics.html -%}
+    {%- endif -%}
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+/*************************
+*** Top Navigation Bar ***
+**************************/
+.site-nav {
+    ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-around;
+        z-index: 2;
+
+        li {
+
+            a,
+            a:focus,
+            a:visited {
+                color: #F2F2F2;
+                font-size: 100%;
+            }
+
+            a:hover {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+    }
+
+    li {
+        font-size: 1.5rem;
+        font-weight: 800;
+    }
+}
+
+/**************************
+***** Hyperink Styles *****
+***************************/
+.home-nav {
+    margin-top: 1.75em;
+
+    a {
+        font-size: 140%;
+    }
+}
+
+a.post-link,
+.home-nav a {
+    display: block;
+    font-weight: 800;
+    color: #636363;
+}
+
+a.post-link {
+    font-size: 160%;
+}
+
+a.post-link:hover,
+.home-nav a:hover,
+.site-nav ul li a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

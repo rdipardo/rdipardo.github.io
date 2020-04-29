@@ -1,0 +1,30 @@
+---
+layout: default
+---
+<article itemscope itemtype="https://schema.org/BlogPosting">
+    <header>
+        <div>
+            <h1 itemprop="name headline">{{ page.title | escape }}</h1>
+            {%- if page.author -%}
+            <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+                By&nbsp;<strong><span class="byline" itemprop="name">{{ page.author }}</span></strong>
+                &nbsp;&bullet;&nbsp;
+            </span>
+            {%- endif -%}
+            <span>
+                <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+                    {%- assign date_format = site.date_format | default: "%b %-d, %Y" -%}
+                    {{ page.date | date: date_format }}
+                </time>
+            </span>
+        </div>
+    </header>
+    <div class="page-content" itemprop="articleBody">
+        {{ content }}
+    </div>
+
+    <a href="{{ page.url | relative_url }}" hidden></a>
+</article>
+<div class="home-nav">
+    <a href="{{ '/' | relative_url }}">All posts</a>
+</div>

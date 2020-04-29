@@ -1,0 +1,65 @@
+# Global site config
+#
+title: Heredocs
+author: Robert Di Pardo
+email: mail@rdpr.io
+subject: Just%20visited%20your%20dev%20blog
+description: >-
+  The online notebook of a budding
+  <span class="code-line">
+    <span class="visual-mode">&lt;div&gt;</span>elo<span class="visual-mode">&lt;p&gt;</span>er</span>
+baseurl: ""
+url: https://blog.rdpr.io
+
+# Config asset processing
+#
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Slate theme features config
+#
+show_downloads: false
+
+# Plugins
+#
+plugins:
+  - github-pages
+  - jemoji
+  - jekyll-feed
+  - jekyll-compose
+
+# Configure new post template
+#
+jekyll_compose:
+  auto_open: true
+  default_front_matter:
+    drafts:
+      author: Robert Di Pardo
+      excerpt_separator: <!--end-brief-->
+      categories: blog
+    posts:
+      author: Robert Di Pardo
+      excerpt_separator: <!--end-brief-->
+      categories: blog
+      published: false
+      sitemap: false
+
+# Configure post display
+#
+date_format: "%b %-d, %Y %I:%M %p"
+show_excerpts: true
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - package-lock.json
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - scripts/
+  - LICENSE*
+  - README*

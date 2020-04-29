@@ -1,0 +1,33 @@
+<nav class="navbar navbar-dark navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow">
+    <div class="container">
+        <a class="navbar-brand">
+
+        </a>
+        <button class="navbar-toggler bg-dark box-shadow" type="button" data-toggle="collapse"
+            data-target=".navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="site-nav navbar-collapse collapse" role="navigation">
+            <ul class="navbar-nav flex-grow-1">
+                <li>
+                    {%- if site.posts.size > 0 -%}
+                    {% assign latest = site.posts.first %}
+                    {% endif %}
+                    <a href="{{ latest.url | default: '/' | relative_url }}">Blog</a>
+                </li>
+                {% assign content_pages = site.html_pages | where_exp:"page","page.title" | sort:"url" %}
+                {%- for page in content_pages -%}
+                {% unless page.name contains '404' %}
+                <li class="nav-item">
+                    <a href="{{ page.url | relative_url }}">{{ page.title | escape }}</a>
+                </li>
+                {% endunless %}
+                {%- endfor -%}
+                <li class="nav-item">
+                    <!-- Make sure GitHub account link always appears -->
+                    <a id="forkme_banner" href="{{ site.github.owner_url }}">My Projects</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

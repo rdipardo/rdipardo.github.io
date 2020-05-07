@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'w3c_validators'
+
+def validate_content(file)
+  validator = lambda { |f|
+    extension = File.extname(f)
+    case extension
+    when '.html'
+      W3CValidators::NuValidator.new
+    when '.css'
+      W3CValidators::CSSValidator.new
+    end
+  }
+
+  puts "Checking #{file}..."
+  results = validator.call(File.basename(file)).validate_file(file)
+
+  return puts 'Valid!' if results.errors.empty?
+
+  results.errors.each { |err| puts err.to_s }
+  exit 1
+end
+
+def validate_scripts(file)
+  puts "Checking #{file}..."
+  `eslint #{file}`
+end
+
+def validate_all
+  content = (Dir.glob '_site/**/*.html').reject { |s| s['/demos/'] }
+  content.concat Dir.glob '_site/assets/**/*.css'
+  scripts = Dir.glob('_site/demos/**/*.js')
+               .reject { |s| s['/node_modules/'] }
+               .reject { |s| s['/third-party/'] }
+  scripts.concat Dir.glob('_site/assets/**/*.js')
+  content.each { |p| validate_content p }
+  scripts.each { |s| validate_scripts s }
+end
+
+validate_all

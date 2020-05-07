@@ -33,13 +33,14 @@
 }
 
 /**************************
-***** Hyperink Styles *****
+***** Hyperlink Styles ****
 ***************************/
 .home-nav {
     margin-top: 1.75em;
 
     a {
         font-size: 140%;
+        font-style: italic;
     }
 }
 
@@ -51,7 +52,7 @@ a.post-link,
 }
 
 a.post-link {
-    font-size: 160%;
+    font-size: 120%;
 }
 
 a.post-link:hover,
@@ -59,4 +60,82 @@ a.post-link:hover,
 .site-nav ul li a:hover {
     text-decoration: underline;
     cursor: pointer;
+}
+
+.rss-link {
+    display: block;
+    height: 28px;
+    margin-left: 3px;
+    padding: 5px 32px 0;
+    background: url("/assets/images/posts/feed-icon-28x28.png") no-repeat 0 50%;
+}
+
+/****************************
+***** Responsive Styles *****
+****************************/
+@media screen and (max-width: 992px) {
+    .site-nav {
+
+        * {
+            white-space: nowrap;
+        }
+
+        ul {
+            flex-direction: column-reverse;
+
+            li {
+                font-size: 1.15rem;
+
+                a {
+                    display: block;
+                    margin: .25rem 0;
+
+                    :not(.media_icon) {
+                        text-decoration: underline;
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .navbar.border-bottom {
+        border: 0 !important
+    }
+
+    .site-nav {
+        ul {
+            flex-direction: column-reverse;
+
+            li {
+                a {
+                    display: block;
+                    margin: .25rem 0;
+                    font-size: large;
+
+                    :not(.media_icon) {
+                        text-decoration: underline;
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .navbar {
+        padding-bottom: 0;
+    }
+
+    .navbar-toggler {
+        margin-bottom: .75rem;
+    }
+
+    .container,
+    .site-nav ul {
+        margin-bottom: 0;
+    }
 }

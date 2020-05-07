@@ -1,0 +1,93 @@
+@font-face {
+    font-family: 'heading';
+    src: url('../fonts/Quicksand-SemiBold.eot');
+    src: url('../fonts/Quicksand-SemiBold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Quicksand-SemiBold.woff2') format('woff2'),
+        url('../fonts/Quicksand-SemiBold.woff') format('woff'),
+        url('../fonts/Quicksand-SemiBold.ttf') format('truetype'),
+        url('../fonts/Quicksand-SemiBold.svg#Quicksand-SemiBold') format('svg');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'body';
+    src: url('../fonts/Nunito-Regular.eot');
+    src: url('../fonts/Nunito-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Nunito-Regular.woff2') format('woff2'),
+        url('../fonts/Nunito-Regular.woff') format('woff'),
+        url('../fonts/Nunito-Regular.ttf') format('truetype'),
+        url('../fonts/Nunito-Regular.svg#Nunito-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'code';
+    src: url('../fonts/SourceCodePro-Regular.eot');
+    src: url('../fonts/SourceCodePro-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/SourceCodePro-Regular.woff2') format('woff2'),
+        url('../fonts/SourceCodePro-Regular.woff') format('woff'),
+        url('../fonts/SourceCodePro-Regular.ttf') format('truetype'),
+        url('../fonts/SourceCodePro-Regular.svg#SourceCodePro-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+pre {
+    position: relative;
+}
+
+.code-copy-icon-container {
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    height: 30px;
+    justify-content: center;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    transition: 0.3s;
+    width: 30px;
+}
+
+.code-copy-icon-container > div {
+    margin-top: 4px;
+    position: relative;
+}
+
+.sm-icon {
+    height: 16px;
+    width: 16px;
+}
+
+.code-lang-name-container {
+    left: 15px;
+    position: absolute;
+    top: 10px;
+}
+
+.code-lang-name {
+    font-family: 'code';
+    font-size: 12px;
+}
+
+.tooltip {
+    border-radius: 5px;
+    opacity: 0;
+    padding: 3px 8px;
+    position: absolute;
+    right: 30px;
+    top: -2px;
+    transform: scale(0);
+    transition: 0.3s;
+}
+
+.show-tooltip {
+    opacity: 1;
+    transform: scale(1);
+}

@@ -1,6 +1,8 @@
 # rdipardo.github.io
 
-This is the working tree from which I generate [my developer blog](https://blog.rdpr.io/).
+[![Build Status][travis_build_status_badge]][travis_build_status]
+
+This is the working tree from which I generate [my developer blog](https://heredocs.com).
 
 ## Page theme
 
@@ -14,3 +16,9 @@ My enhancements include:
 ## License
 
 Like the theme, this project comes with a [CC0 v1.0 Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/).
+
+
+
+[travis_build_status]: https://travis-ci.com/rdipardo/rdipardo.github.io
+[travis_build_status_badge]: https://travis-ci.com/rdipardo/rdipardo.github.io.svg?branch=master
+

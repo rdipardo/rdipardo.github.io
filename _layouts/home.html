@@ -10,7 +10,7 @@ layout: default
 
     {%- if site.posts.size > 0 -%}
     <div>
-        <h2>{{ page.list_title | default: "Posts" }}</h2>
+        <h2 id="blog-list">{{ page.list_title | default: "Posts" }}</h2>
     </div>
 
     <ul class="post-list">
@@ -19,23 +19,20 @@ layout: default
             {%- assign date_format = site.date_format | default: "%b %-d, %Y" -%}
             <span class="post-meta">{{ post.date | date: date_format }}</span>
             <h5>
-                <a class="post-link" href="{{ post.url | relative_url }}">
+                <a class="post-link" href="{{ post.url| relative_url }}#main_content">
                     {{ post.title | escape }}
                 </a>
             </h5>
             {%- if site.show_excerpts -%}
             <div class="post-preview">
-                <a href="{{ post.url | relative_url }}">
-                    {{ post.excerpt }}
-                </a>
+                {{ post.excerpt }}
             </div>
             {%- endif -%}
         </li>
         {%- endfor -%}
     </ul>
-    <p class="rss-subscribe">Like these posts?
-        <a href="{{ '/feed.xml' | relative_url }}"> Subscribe </a>
-        today!
+    <p class="rss-subscribe">
+        <a class="rss-link" href="{{ '/feed.xml' | relative_url }}">Follow</a>
     </p>
     {%- endif -%}
 </div>

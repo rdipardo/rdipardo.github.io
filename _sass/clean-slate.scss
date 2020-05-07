@@ -119,13 +119,12 @@ table {
 /*******************************************************************************
 Theme Styles
 *******************************************************************************/
-
 body {
     box-sizing: border-box;
     color: #373737;
     background: #212121;
     font-size: 16px;
-    font-family: 'Ubuntu', Calibri, Helvetica, sans-serif;
+    font-family: 'Nunito', 'Helvetica Neue', Helvetica, sans-serif;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
 }
@@ -139,7 +138,7 @@ h6 {
     margin: 10px 0;
     font-weight: 700;
     color: #222222;
-    font-family: 'Ubuntu', 'Lucida Grande', Calibri, Helvetica, sans-serif;
+    font-family: 'Quicksand', 'Lucida Grande', 'Helvetica Neue', Helvetica, sans-serif;
     letter-spacing: -1px;
 }
 
@@ -239,11 +238,9 @@ p img {
 pre,
 code {
     color: #222;
-    background-color: #fff;
-
+    background-color: #f8f8f8;
     font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
     font-size: 14px;
-
     border-radius: 2px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
@@ -319,7 +316,7 @@ table {
 }
 
 th {
-    font-family: 'Ubuntu', 'Lucida Grande', 'Helvetica Neue', sans-serif;
+    font-family: 'Nunito', 'Lucida Grande', 'Helvetica Neue', sans-serif;
     padding: 10px;
     background: #373737;
     color: #fff;
@@ -338,7 +335,6 @@ form {
 /*******************************************************************************
 Full-Width Styles
 *******************************************************************************/
-
 .outer {
     width: 100%;
 }
@@ -350,17 +346,15 @@ Full-Width Styles
     margin: 0 auto;
 }
 
-#forkme_banner,
-#forkme_banner:hover,
-#forkme_banner:focus,
-#forkme_banner:visited {
-    padding: 10px 50px 10px 10px;
-    color: #fff;
-    background: url('../images/blacktocat.png') #0090ff no-repeat 95% 50%;
-    font-weight: 700;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
+.media_icon,
+.media_icon:hover,
+.media_icon:focus,
+.media_icon:visited {
+    display: block;
+    width: 48px;
+    height: 48px;
+    border-radius: 48px;
+    background: url(../images/blacktocat.png) #0090ff no-repeat center;
 }
 
 #header_wrap {
@@ -397,45 +391,6 @@ Full-Width Styles
     text-shadow: #111 0px 0px 10px;
     color: #fff;
     border: 0;
-}
-
-#downloads {
-    position: absolute;
-    width: 210px;
-    z-index: 10;
-    bottom: -40px;
-    right: 0;
-    height: 70px;
-    background: url('../images/icon_download.png') no-repeat 0% 90%;
-}
-
-.zip_download_link {
-    display: block;
-    float: right;
-    width: 90px;
-    height: 70px;
-    text-indent: -5000px;
-    overflow: hidden;
-    background: url(../images/sprite_download.png) no-repeat bottom left;
-}
-
-.tar_download_link {
-    display: block;
-    float: right;
-    width: 90px;
-    height: 70px;
-    text-indent: -5000px;
-    overflow: hidden;
-    background: url(../images/sprite_download.png) no-repeat bottom right;
-    margin-left: 10px;
-}
-
-.zip_download_link:hover {
-    background: url(../images/sprite_download.png) no-repeat top left;
-}
-
-.tar_download_link:hover {
-    background: url(../images/sprite_download.png) no-repeat top right;
 }
 
 #main_content {
@@ -485,7 +440,22 @@ Full-Width Styles
 
     * {
         flex-shrink: 0;
+        font-size: 90%;
     }
+}
+
+.warning {
+    .emoji {
+        height: 80px;
+        width: 80px;
+        box-shadow: none;
+    }
+}
+
+.http-404 {
+    font-size: 4em;
+    line-height: 1;
+    letter-spacing: -1px;
 }
 
 /*****************************
@@ -501,7 +471,7 @@ Full-Width Styles
 
 .post-meta,
 .rss-subscribe {
-    font-size: 1.15rem;
+    font-size: .85rem;
     font-style: italic;
 }
 
@@ -509,11 +479,15 @@ Full-Width Styles
     margin-left: -2rem;
 }
 
-.byline,
-.dt-published {
-    color: #363636;
-    text-transform: capitalize;
-    font-style: normal;
+.post-heading {
+    margin-bottom: 2.75rem;
+
+    .byline,
+    .dt-published {
+        color: #363636;
+        text-transform: capitalize;
+        font-style: normal;
+    }
 }
 
 .emoji {
@@ -521,17 +495,9 @@ Full-Width Styles
     margin: 0 5px;
 }
 
-.warning {
-    .emoji {
-        height: 80px;
-        width: 80px;
-        box-shadow: none;
-    }
-}
-
 .post-preview,
 .page-content {
-    font-size: 1.5rem;
+    font-size: 18px;
 
     * {
         max-width: 100%;
@@ -544,18 +510,11 @@ Full-Width Styles
     text-align: center;
 }
 
-.http-404 {
-    font-size: 4em;
-    line-height: 1;
-    letter-spacing: -1px;
-}
-
 /*****************************
  ********* For Fun ***********
  ****************************/
 img.profile {
     display: block;
-    margin: 0 auto;
     border: 0;
     padding: 2px;
     width: 80px;
@@ -563,7 +522,6 @@ img.profile {
     border-radius: 50%;
     color: #f5f5f5;
     background-color: #044a64;
-    text-align: center;
     box-shadow: 0 0 3px gray;
 }
 
@@ -591,6 +549,11 @@ img.profile:hover {
         color: greenyellow;
         background-color: darkcyan;
     }
+
+    .ghost-text {
+        // make sure tagline is fully spelled in search engine previews!
+        display: none;
+    }
 }
 
 /*******************************************************************************
@@ -602,32 +565,13 @@ Small Device Styles
     }
 }
 
-/************************
-** Small Screen Tweaks **
-*************************/
 @media screen and (max-width: 750px) {
-    .page-content {
-        font-size: 1.25rem;
+    .inner {
+        max-width: 100%;
     }
 
-    .site-nav {
-        ul {
-            flex-direction: column-reverse;
-            margin-bottom: 1rem;
-
-            li {
-                a {
-                    display: block;
-                    margin: .25rem 0;
-                    font-size: large;
-
-                    :not(#forkme_banner) {
-                        text-decoration: underline;
-                    }
-                }
-
-            }
-        }
+    .page-content {
+        font-size: 1.25rem;
     }
 
     #header_wrap .inner h2 {
@@ -635,7 +579,6 @@ Small Device Styles
     }
 
     #footer_wrap .inner {
-        max-width: 100%;
         padding-left: 1.75em;
         padding-right: 1.75rem;
     }
@@ -646,33 +589,19 @@ Small Device Styles
         font-size: 14px;
     }
 
-    .navbar {
-        padding-bottom: 0
+    img.profile {
+        margin: 0 auto;
     }
 
-    .container {
-        margin-bottom: 0
-    }
-
-    .navbar.border-bottom {
-        border: 0 !important
-    }
-
-    .page-content {
-        font-size: 1rem;
-    }
-
-    #downloads {
-        display: none;
+    #project_title {
+        margin-top: 0;
+        padding-top: 0;
+        font-size: 32px;
     }
 
     .inner {
         min-width: 320px;
         max-width: 480px;
-    }
-
-    #project_title {
-        font-size: 32px;
     }
 
     h1 {
@@ -704,6 +633,10 @@ Small Device Styles
         font-size: 11px;
     }
 
+    .page-content {
+        font-size: 1rem;
+    }
+
     #footer_wrap .inner {
         padding-left: 1.75rem;
         padding-right: 1.75rem;
@@ -711,7 +644,7 @@ Small Device Styles
 
     .footer-columns {
         * {
-            font-size: .75rem;
+            font-size: .65rem;
         }
     }
 }
@@ -719,10 +652,6 @@ Small Device Styles
 @media screen and (max-width: 320px) {
     body {
         font-size: 14px;
-    }
-
-    #downloads {
-        display: none;
     }
 
     .inner {

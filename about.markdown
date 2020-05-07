@@ -9,22 +9,27 @@ permalink: /about/
     <img class="profile" alt="Rob Di Pardo" src="{{ '/assets/images/mug.jpg' | prepend: site.baseurl | relative_url }}"/>
 </a>
 
-### My interests
+### Interests
 
-- all things Linux :penguin:
+- all things Linux
 
 - automating file operations with command line utilities
 
 - processing data collections with functional iterators
 
-- learning new coding paradigms
+- learning new programming languages
 
-<br/>
 
-### My background
+### Contributions
 
-- self-taught in Ruby, Python, JavaScript, SQL, HTML, CSS, Clojure, Java, and C
+##### [vim-cpywrite](https://www.vim.org/scripts/script.php?script_id=5888)
 
-- graduate of [Conestoga College Institute of Technology and Advanced Learning](https://www.conestogac.on.ca/applied-computer-science-information-technology/index.jsp?SchoolID=12&p=h) (Computer Programmer), where I was trained in LAMP-stack web development and ASP.NET
+A (Neo)vim plugin to generate a copyright header from the open source license of your choice
 
-- graduate of the University of Toronto ([English and Italian literature](https://independent.academia.edu/RobertDiPardo)) and Brock University (M.A., English)
+##### [tidy_json](https://rubygems.org/gems/tidy_json)
+
+A Ruby mixin providing JSON serialization and pretty printing
+
+##### [Stackpole International &ndash; Quality Tags Technology Stack Upgrade](https://stackpole-qtags-dev.herokuapp.com)
+
+Full-stack upgrade of the quality issues reporting system used at [Stackpole International](https://www.stackpole.com)'s Stratford, Ontario location. Their legacy system was backed by Microsoft Access, with a frontend entirely in VBA. We migrated the database to MySQL and redesigned the frontend as an MVC web app using ASP.NET Core and EF 3.1

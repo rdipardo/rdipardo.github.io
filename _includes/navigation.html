@@ -10,10 +10,7 @@
         <div class="site-nav navbar-collapse collapse" role="navigation">
             <ul class="navbar-nav flex-grow-1">
                 <li>
-                    {%- if site.posts.size > 0 -%}
-                    {% assign latest = site.posts.first %}
-                    {% endif %}
-                    <a href="{{ latest.url | default: '/' | relative_url }}">Blog</a>
+                    <a href="{{ '/#blog-list' | relative_url }}">Blog</a>
                 </li>
                 {% assign content_pages = site.html_pages | where_exp:"page","page.title" | sort:"url" %}
                 {%- for page in content_pages -%}
@@ -25,7 +22,7 @@
                 {%- endfor -%}
                 <li class="nav-item">
                     <!-- Make sure GitHub account link always appears -->
-                    <a id="forkme_banner" href="{{ site.github.owner_url }}">My Projects</a>
+                    <a class="media_icon" href="{{ site.github.owner_url }}"></a>
                 </li>
             </ul>
         </div>

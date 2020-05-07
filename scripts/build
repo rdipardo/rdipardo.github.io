@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+bundle exec jekyll build
+bundle exec htmlproofer _site --check-html --check-sri --checks_to_ignore LinkCheck
+bundle exec scripts/validate
+cp -v .htaccess _site/
+cp -v _site/feed.xml _site/atom.xml

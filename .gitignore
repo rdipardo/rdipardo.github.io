@@ -1,7 +1,6 @@
 # Blog working directories
 _drafts/
 _site/
-script*/
 .sass-cache
 .jekyll-cache
 .jekyll-metadata

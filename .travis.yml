@@ -1,4 +1,18 @@
+os: linux
+dist: focal
 language: ruby
 rvm:
   - 2.6
-script: "bundle exec jekyll build"
+before_install:
+  - nvm install 12.18
+before_script:
+ - npm i -g eslint
+ - chmod +x $TRAVIS_BUILD_DIR/scripts/build
+script: $TRAVIS_BUILD_DIR/scripts/build
+cache:
+  bundler: true
+  directories:
+    - $(npm config get prefix)/lib/node_modules
+notifications:
+  email:
+    on_failure: always

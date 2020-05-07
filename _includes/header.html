@@ -8,13 +8,4 @@
     {% endunless %}
 
     <h2 id="project_tagline">{{ page.description | default: site.description }}</h2>
-
-    {% if site.show_downloads %}
-    <section id="downloads">
-        <a class="zip_download_link" href="{{ site.github.zip_url }}">Download this project as a
-            <code>.zip</code>file</a>
-        <a class="tar_download_link" href="{{ site.github.tar_url }}">Download this project as a <code>tar.gz</code>
-            file</a>
-    </section>
-    {% endif %}
 </header>

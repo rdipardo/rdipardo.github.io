@@ -5,9 +5,11 @@ excerpt: A tribute to <strong>mcedit</strong>
 excerpt_separator: "<!--end-brief-->"
 categories: blog
 date: 2020-06-28 20:38 -0400
+updated: 2021-03-12 13:26 -0500
 ---
 
-My everyday workstation currently runs [MX 18.3](https://mxlinux.org/reviews). With Debian stable at its core, this user-friendly distro lets me assign my preferred text editor to the *edit* action of the [**run-mailcap**](https://manpages.debian.org/jessie/mime-support/run-mailcap.1.en.html) utility. At the moment, my choices are the following:
+My everyday workstation currently runs [BunsenLabs (Lithium)](https://www.bunsenlabs.org/index.html).
+With Debian stable at its core, this snappy little distro lets me assign my preferred text editor to the *edit* action of the [**run-mailcap**](https://manpages.debian.org/buster/mime-support/run-mailcap.1.en.html) utility. At the moment, my choices are the following:
 
 ```bash
 $ select-editor
@@ -41,7 +43,7 @@ Here are some custom mappings from my *.vimrc* file, inspired by **mcedit**'s fu
 nnoremap <F2> :w %<CR>
 ```
 
-This next mapping is my invention, because I'm not sure what it's supposed to emulate. According to  [**mc**'s maintainers](https://midnight-commander.org/wiki/doc/editor/hotkeys), the default action of `F3` is moving the cursor to the *start* or (when `SHIFT`ed up) the *end* of a line. In [my distro's default version](https://packages.debian.org/stretch/mc) (4.8.18), however, `F3` simply toggles the open file's byte order mark. Let's put it to better use!
+This next mapping is my invention, because I'm not sure what it's supposed to emulate. According to  [**mc**'s maintainers](https://midnight-commander.org/wiki/doc/editor/hotkeys), the default action of `F3` is moving the cursor to the *start* or (when `SHIFT`ed up) the *end* of a line. In [my distro's default version](https://packages.debian.org/buster/mc) (4.8.22), however, `F3` simply toggles the open file's byte order mark. Let's put it to better use!
 
 *To list all open buffers:*
 

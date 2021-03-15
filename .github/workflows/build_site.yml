@@ -1,0 +1,37 @@
+name: Page Build
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build_site:
+    runs-on: windows-latest
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - name: Pre-build Install
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: '5.0.102'
+      - name: npm
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: '12.x'
+      - name : Page Build
+        run: |-
+         npm install
+         npm run build:pre
+         npm run build
+      #- name: Publish
+        #uses: peaceiris/actions-gh-pages@v3.8.0
+        #with:
+          #deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          #enable_jekyll: false
+          #publish_dir: _public
+          #user_name: 'github-actions[bot]'
+          #user_email: 'github-actions@users.noreply.github.com'
+          #commit_message: 'Publish site: ${{ github.sha }}'

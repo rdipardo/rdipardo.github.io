@@ -51,4 +51,4 @@ jobs:
         publish_dir: '${{ steps.fetch.outputs.download-path }}'
         user_name: 'github-actions[bot]'
         user_email: 'github-actions@users.noreply.github.com'
-        commit_message: 'publish site: ${{ github.sha }}'
+        commit_message: '${{ github.event.head_commit.message }}'

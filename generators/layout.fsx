@@ -82,7 +82,12 @@ let layout (ctx: SiteContents) active bodyCnt =
         |> Seq.toList
 
     let menuEntries =
-        pages
+        let paths = pages |> Seq.sortBy (fun p -> p.link)
+        let home = paths |> Seq.head |> Seq.singleton
+
+        paths
+        |> (Seq.tail >> Seq.sortByDescending (fun p -> p.title))
+        |> (Seq.append home)
         |> Seq.map
             (fun p ->
                 let cls = if p.title = active then "navbar-item is-active" else "navbar-item"
@@ -115,7 +120,7 @@ let layout (ctx: SiteContents) active bodyCnt =
     let scripts =
         seq {
             script [ Src "/js/bulma.js"; Defer true ] []
-
+            script [ Src "/js/prism.js"; Defer true ] []
             script [ Src "/js/replace_icon.js"; Defer true ] []
         }
 
@@ -145,6 +150,8 @@ let layout (ctx: SiteContents) active bodyCnt =
             link [ Rel "stylesheet"
                    Media "screen"
                    Href "https://unpkg.com/bulma@0.8.0/css/bulma.min.css" ]
+            link [ Rel "stylesheet"; Media "screen"; Href "/style/prism-compat-fixes.css" ]
+            link [ Rel "stylesheet"; Media "screen"; Href "/style/prism.css" ]
             link [ Rel "stylesheet"; Media "screen"; Href "/style/style.css" ]
             (if String.IsNullOrEmpty((HtmlElement.ToString headline).Trim()) then
                  !! """<style>.hero-body { height: 200px; }</style>"""

@@ -1,10 +1,12 @@
 #r "../_lib/Fornax.Core.dll"
 #r "../_lib/Markdig.dll"
+#r "../_lib/Markdig.Prism.dll"
 #load "../scripts/markdownUtils.fsx"
 
 open System
 open System.IO
 open Markdig
+open Markdig.Prism
 open MarkdownUtils
 
 type PostConfig = { disableLiveRefresh: bool }
@@ -27,6 +29,9 @@ let markdownPipeline =
     MarkdownPipelineBuilder()
         .UsePipeTables()
         .UseGridTables()
+        .UsePreciseSourceLocation()
+        .UseAdvancedExtensions()
+        .UsePrism()
         .Build()
 
 let loadFile n =

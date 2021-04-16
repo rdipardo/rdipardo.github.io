@@ -21,6 +21,11 @@ Page theme
 A lightly touched up version of the `Bulma CSS framework <https://bulma.io>`_ |em| the
 default for projects generated with `Fornax <https://ionide.io/Tools/fornax.html>`_.
 
+Syntax highlighting uses the `Okaidia`_ theme provided by `Prism`_.
+
+.. _`Prism`: https://prismjs.com
+.. _`Okaidia`: https://prismjs.com/download.html#themes=prism-okaidia
+
 License
 =======
 

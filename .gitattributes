@@ -1,0 +1,4 @@
+**.html         linguist-generated
+**/bulma.*      linguist-vendored
+**/prism.*      linguist-vendored
+**/websocket.js linguist-vendored

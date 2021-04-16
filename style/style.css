@@ -212,6 +212,9 @@ div.column.is-8:first-child {
 	body, html {
 		font-size: 1rem
 	}
+	.article-title {
+		line-height: 1.15;
+	}
 	.article-body {
 		margin: 0
 	}
@@ -224,7 +227,7 @@ div.column.is-8:first-child {
 	.license {
 		max-width: 100%
 	}
-	footer img, img {
+	footer img {
 		max-width: 60%
 	}
 }

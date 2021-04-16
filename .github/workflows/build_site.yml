@@ -26,12 +26,12 @@ jobs:
          npm install
          npm run build:pre
          npm run build
-      #- name: Publish
-        #uses: peaceiris/actions-gh-pages@v3.8.0
-        #with:
-          #deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          #enable_jekyll: false
-          #publish_dir: _public
-          #user_name: 'github-actions[bot]'
-          #user_email: 'github-actions@users.noreply.github.com'
-          #commit_message: 'Publish site: ${{ github.sha }}'
+      - name: Publish
+        uses: peaceiris/actions-gh-pages@v3.8.0
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          enable_jekyll: false
+          publish_dir: _public
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions@users.noreply.github.com'
+          commit_message: 'publish site: ${{ github.sha }}'

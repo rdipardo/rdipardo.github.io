@@ -11,8 +11,7 @@ open Html
 open System
 
 let private injectWebsocketCode (webpage: string) =
-    let websocketScript =
-        script [ Src "/js/websocket.js"; Defer true ] []
+    let websocketScript = script [ Src "/js/websocket.js"; Defer true ] []
 
     let head = "<head>"
     let index = webpage.IndexOf head
@@ -20,35 +19,21 @@ let private injectWebsocketCode (webpage: string) =
     webpage.Insert((index + head.Length + 1), sprintf "\t%s\n" tag)
 
 let private toDateString (date: DateTime option) =
-    Option.defaultValue DateTime.Now date
-    |> fun n -> n.ToString("yyyy-MM-dd")
+    Option.defaultValue DateTime.Now date |> fun n -> n.ToString("yyyy-MM-dd")
 
 let layout (ctx: SiteContents) active bodyCnt =
-    let pages =
-        ctx.TryGetValues<Pageloader.Page>()
-        |> Option.defaultValue Seq.empty
-
+    let pages = ctx.TryGetValues<Pageloader.Page>() |> Option.defaultValue Seq.empty
     let siteInfo = ctx.TryGetValue<Globalloader.SiteInfo>()
+    let baseUrl = siteInfo |> Option.map (fun si -> si.canonical) |> Option.defaultValue ""
+    let ttl = siteInfo |> Option.map (fun si -> si.title) |> Option.defaultValue ""
+    let headline = siteInfo |> Option.map (fun si -> si.headline) |> Option.defaultValue !! ""
+    let desc = siteInfo |> Option.map (fun si -> si.description) |> Option.defaultValue ""
 
-    let baseUrl =
-        siteInfo
-        |> Option.map (fun si -> si.canonical)
-        |> Option.defaultValue ""
-
-    let ttl =
-        siteInfo
-        |> Option.map (fun si -> si.title)
-        |> Option.defaultValue ""
-
-    let headline =
-        siteInfo
-        |> Option.map (fun si -> si.headline)
-        |> Option.defaultValue !! ""
-
-    let desc =
-        siteInfo
-        |> Option.map (fun si -> si.description)
-        |> Option.defaultValue ""
+    let subtitle =
+        if String.IsNullOrEmpty(active) then
+            if String.IsNullOrEmpty(desc) then "" else $" | {desc}"
+        else
+            $" | {active}"
 
     let attribution =
         siteInfo
@@ -61,9 +46,7 @@ let layout (ctx: SiteContents) active bodyCnt =
         |> Option.defaultValue { name = ""; email = "" }
 
     let socialMedia =
-        let sites =
-            ctx.TryGetValues<Linkloader.Link>()
-            |> Option.defaultValue Seq.empty
+        let sites = ctx.TryGetValues<Linkloader.Link>() |> Option.defaultValue Seq.empty
 
         sites
         |> Seq.map (
@@ -93,8 +76,7 @@ let layout (ctx: SiteContents) active bodyCnt =
                         | Some s -> (sprintf "Find %s on %s" siteAuthor.name s)
                         | None -> ""
                     ) ] [
-                    span [ Class(sprintf "media-icon fa %s" (snd s))
-                           Custom("aria-hidden", "true") ] []
+                    span [ Class(sprintf "media-icon fa %s" (snd s)); Custom("aria-hidden", "true") ] []
                 ])
         )
         |> Seq.toList
@@ -103,12 +85,9 @@ let layout (ctx: SiteContents) active bodyCnt =
         pages
         |> Seq.map
             (fun p ->
-                let cls =
-                    if p.title = active then "navbar-item is-active" else "navbar-item"
+                let cls = if p.title = active then "navbar-item is-active" else "navbar-item"
 
-                a [ Class cls; Href p.link ] [
-                    !!p.title
-                ])
+                a [ Class cls; Href p.link ] [ !!p.title ])
         |> Seq.toList
 
     let footer =
@@ -118,21 +97,15 @@ let layout (ctx: SiteContents) active bodyCnt =
                     div [ Class "stacked" ] [
                         p [] [
                             !!(sprintf "&copy;&nbsp;%d&nbsp;" DateTime.Now.Year)
-                            a [ Href(sprintf "mailto:%s" siteAuthor.email) ] [
-                                !!siteAuthor.name
-                            ]
+                            a [ Href(sprintf "mailto:%s" siteAuthor.email) ] [ !!siteAuthor.name ]
                         ]
                         !!attribution.notice
                     ]
-                    div [ Class "stacked" ] [
-                        p [ Class "contact" ] socialMedia
-                    ]
+                    div [ Class "stacked" ] [ p [ Class "contact" ] socialMedia ]
                     div [ Class "stacked" ] [
                         p [] [
                             !! "Site generated with "
-                            a [ Href "https://ionide.io/Tools/fornax.html" ] [
-                                !! "Fornax"
-                            ]
+                            a [ Href "https://ionide.io/Tools/fornax.html" ] [ !! "Fornax" ]
                         ]
                     ]
                 ]
@@ -149,25 +122,15 @@ let layout (ctx: SiteContents) active bodyCnt =
     html [ Lang "en" ] [
         head [] [
             meta [ CharSet "utf-8" ]
-            meta [ Name "viewport"
-                   Content "width=device-width, initial-scale=1" ]
-            title [] [
-                !!(if String.IsNullOrEmpty(desc) then ttl else ttl + " | " + desc)
-            ]
-            meta [ Name "generator"
-                   Content "fornax" ]
-            meta [ Property "og:title"
-                   Content ttl ]
-            meta [ Property "og:site_name"
-                   Content ttl ]
-            meta [ Property "og:url"
-                   Content baseUrl ]
-            meta [ Name "author"
-                   Content siteAuthor.name ]
-            meta [ Name "description"
-                   Content desc ]
-            meta [ Property "og:description"
-                   Content desc ]
+            meta [ Name "viewport"; Content "width=device-width, initial-scale=1" ]
+            title [] [ !!($"{ttl}{subtitle}") ]
+            meta [ Name "generator"; Content "fornax" ]
+            meta [ Property "og:title"; Content ttl ]
+            meta [ Property "og:site_name"; Content ttl ]
+            meta [ Property "og:url"; Content baseUrl ]
+            meta [ Name "author"; Content siteAuthor.name ]
+            meta [ Name "description"; Content desc ]
+            meta [ Property "og:description"; Content desc ]
             link [ Rel "canonical"; Href baseUrl ]
             link [ Rel "icon"
                    HtmlProperties.Type "image/x-icon"
@@ -175,17 +138,14 @@ let layout (ctx: SiteContents) active bodyCnt =
                    Href "/images/favicon.ico" ]
             link [ Rel "stylesheet"
                    Media "all"
-                   Href
-                       "https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap" ]
+                   Href "https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap" ]
             link [ Rel "stylesheet"
                    Media "all"
                    Href "https://fonts.googleapis.com/css2?family=Nunito&display=swap" ]
             link [ Rel "stylesheet"
                    Media "screen"
                    Href "https://unpkg.com/bulma@0.8.0/css/bulma.min.css" ]
-            link [ Rel "stylesheet"
-                   Media "screen"
-                   Href "/style/style.css" ]
+            link [ Rel "stylesheet"; Media "screen"; Href "/style/style.css" ]
             (if String.IsNullOrEmpty((HtmlElement.ToString headline).Trim()) then
                  !! """<style>.hero-body { height: 200px; }</style>"""
              else
@@ -215,8 +175,7 @@ let layout (ctx: SiteContents) active bodyCnt =
         ]
     ]
 
-let publications (post: Postloader.Post) =
-    (toDateString post.published, toDateString post.updated)
+let publications (post: Postloader.Post) = (toDateString post.published, toDateString post.updated)
 
 let postLayout (useSummary: bool) (post: Postloader.Post) =
     div [ Class "card article" ] [
@@ -231,9 +190,7 @@ let postLayout (useSummary: bool) (post: Postloader.Post) =
                     !!(sprintf
                         "%s%s"
                         (if post.author.IsSome then
-                             sprintf
-                                 "By&nbsp;%s&nbsp;&bullet;&nbsp;"
-                                 (defaultArg post.author "Anonymous")
+                             sprintf "By&nbsp;%s&nbsp;&bullet;&nbsp;" (defaultArg post.author "Anonymous")
                          else
                              "")
                         (fst (publications post)))

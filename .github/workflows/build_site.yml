@@ -26,12 +26,29 @@ jobs:
          npm install
          npm run build:pre
          npm run build
-      - name: Publish
-        uses: peaceiris/actions-gh-pages@v3.8.0
+      - name: Save site assets
+        uses: actions/upload-artifact@v2.2.3
         with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          enable_jekyll: false
-          publish_dir: _public
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions@users.noreply.github.com'
-          commit_message: 'publish site: ${{ github.sha }}'
+          name: site-assets
+          path: '_public/**'
+
+  publish:
+    needs: build_site
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Retrieve site assets
+      uses: actions/download-artifact@v2.0.9
+      id: fetch
+      with:
+        name: site-assets
+        path: '~/_public'
+    - name: Publish
+      uses: peaceiris/actions-gh-pages@v3.8.0
+      with:
+        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        enable_jekyll: false
+        publish_dir: '${{ steps.fetch.outputs.download-path }}'
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions@users.noreply.github.com'
+        commit_message: 'publish site: ${{ github.sha }}'

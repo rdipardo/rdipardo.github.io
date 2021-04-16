@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>
+      Heredocs | Single or Double? (The Conclusion)
+    </title>
+    <meta name="generator" content="fornax"/>
+    <meta property="og:title" content="Heredocs"/>
+    <meta property="og:site_name" content="Heredocs"/>
+    <meta property="og:url" content="https://rdipardo.github.io"/>
+    <meta name="author" content="Robert Di Pardo"/>
+    <meta name="description" content="Reflections, tips, and works in progress"/>
+    <meta property="og:description" content="Reflections, tips, and works in progress"/>
+    <link rel="canonical" href="https://rdipardo.github.io"/>
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="/images/favicon.ico"/>
+    <link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap"/>
+    <link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css2?family=Nunito&display=swap"/>
+    <link rel="stylesheet" media="screen" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css"/>
+    <link rel="stylesheet" media="screen" href="/style/style.css"/>
+    <style>.hero-body { height: 200px; }</style>
+  </head>
+  <body>
+    <nav class="navbar is-dark">
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item navicon" title="View the source code" href="https://github.com/rdipardo/rdipardo.github.io">
+            <span class="media-icon fa fa-github" aria-hidden="true"></span>
+          </a>
+          <span class="navbar-burger burger" data-target="navbarMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </div>
+        <div id="navbarMenu" class="navbar-menu">
+          <a class="navbar-item" href="/">
+            Blog
+          </a>
+          <a class="navbar-item" href="/pages/about.html">
+            About
+          </a>
+          <a class="navbar-item" href="/pages/contributions.html">
+            Projects
+          </a>
+        </div>
+      </div>
+    </nav>
+    <section class="hero is-info is-medium is-bold">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title">
+            
+          </h1>
+        </div>
+      </div>
+    </section>
+    <div class="container">
+      <section class="articles">
+        <div class="column is-8 is-offset-2">
+          <div class="card article">
+            <div class="card-content">
+              <div class="media-content has-text-centered">
+                <p class="title article-title">
+                  <a name="main-content" href="/posts/2020-07-24-click-evt-handling-in-js-part-2.html#main-content">
+                    Single or Double? (The Conclusion)
+                  </a>
+                </p>
+                <p class="subtitle is-6 article-subtitle">
+                  2020-07-25
+                </p>
+              </div>
+              <div class="content article-body is-post">
+                <p>In a [previous post][cross-ref], we saw that single-threaded execution makes it hard to distinguish a genuine <em>double-click</em> event from two, separate <em>click</em> events.</p>
+<p>Given this problem, could we ever set two different event handlers on the same HTML element, one just for <em>clicks</em>, the other just for <em>double-click</em>s?</p>
+<h3>A (potential) solution</h3>
+<p>Here is a chance to leverage JavaScript's asynchronous features. Developers targeting <a href="https://caniuse.com/#feat=async-functions">browser's that support asynchronous functions</a> can delegate event-listening to a separate thread. Code running on this thread can inform the main thread about the type of event detected. The target thread can then decide what action to take.</p>
+<p>With this in mind, here's one approach to solving our event handling problem:</p>
+<pre><code class="language-javascript">/**
+ * Returns a Promise that will call `window.setTimeout()` when resolved;
+ * `onSuccess` will execute when the timer runs out; the time limit will be the
+ * value of `span`.
+ */
+function sleep(span) {
+    return new Promise(function (onSuccess) {
+        window.setTimeout(onSuccess, span);
+    });
+}
+
+/**
+ * Runs on a separate thread (`async`); can be paused by functions qualified
+ * with `await`.
+ */
+async function changeElement(node) {
+    let doubleClickEvent = false;
+
+    // the callback executed by `setTimeout()`
+    await sleep(200).then(() =&gt; doubleClickEvent = ClickWatcher.isDoubleClicked());
+
+    if (!doubleClickEvent) {
+        // handle a single-click event
+    }
+}
+
+/**
+ * Also runs on a separate thread (`async`).
+ */
+async function changeBack(element) {
+    ClickWatcher.publishDoubleClick(); // see below
+
+    if ( /* something changed? */ ) {
+
+        // handle a double-click event
+
+        // now forget the event
+        await sleep(200).then(() =&gt; ClickWatcher.reset());
+    } else {
+        // this will cover us in case the user doesn't
+        // click even once before double-clicking;
+        // nothing was changed, so simply void this event
+        await sleep(200).then(() =&gt; ClickWatcher.reset());
+    }
+}
+
+/**
+ * Finally, we need a function that can “remember” the last-assigned
+ * value of a local variable; let's avoid a global variable and declare a
+ * closure!
+ */
+const ClickWatcher = (function () {
+    // the value of this variable will persist between function calls
+    let doubleClick = false;
+
+    return {
+        // set our local variable
+        publishDoubleClick: () =&gt; doubleClick = true,
+
+        // return the value of our local variable
+        isDoubleClicked: () =&gt; doubleClick,
+
+        reset: () =&gt; doubleClick = false
+    };
+})();
+</code></pre>
+<p>If you have a laptop and a mouse handy, you can try out <a href="/demos/js/dbclick-event-handling/"><strong>this quick demonstration</strong></a> to see if it works as expected.</p>
+<h4>Caveat</h4>
+<p>Since this topic only deals with mouse events, it should go without saying that only websites intended for <em><strong>desktop</strong></em> viewing can benefit from the above solution!</p>
+<hr />
+<h5>Acknowledgements</h5>
+<p>The <code>sleep()</code> function used above was devised by <a href="https://stackoverflow.com/users/1269037/dan-dascalescu">Dan Dascalescu</a> in [this posting][js_sleep_fn].</p>
+<h5>See also</h5>
+<ul>
+<li>[Async Function Definitions][async-fns-spec] (ECMA-262, 8th edition, June 2017)</li>
+<li>Bevacqua, N. (2016), [“Understanding JavaScript’s async await”][async-fns-dev-perspective] [blog]</li>
+</ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer class="is-dark">
+      <div class="columns">
+        <div class="stacked">
+          <p>
+            &copy;&nbsp;2021&nbsp;
+            <a href="mailto:dipardo.r@gmail.com">
+              Robert Di Pardo
+            </a>
+          </p>
+          
+            <div>
+                <a rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/">
+                    <img style="border-style:none;display:block;margin:0 auto;" src="https://licensebuttons.net/p/zero/1.0/88x31.png" alt="CC0" /></a>
+                <div class="license">
+                    To the extent possible under law,
+                    <a rel="dct:publisher" href="https://www.pexels.com/@startup-stock-photos">
+                        <span property="dct:title">Startup Stock Photos</span></a>
+                        has waived all copyright and related or neighboring rights to
+                        <a href="https://www.pexels.com/photo/person-holding-black-pen-while-sitting-7095"><span property="dct:title">Person Holding Black Pen While Sitting</span></a>.
+                </div>
+            </div>
+        
+        </div>
+        <div class="stacked">
+          <p class="contact">
+            <a href="https://github.com/rdipardo" class="navicon" title="Find Robert Di Pardo on github">
+              <span class="media-icon fa fa-github" aria-hidden="true"></span>
+            </a>
+            <a href="https://bitbucket.org/rdipardo" class="navicon" title="Find Robert Di Pardo on bitbucket">
+              <span class="media-icon fa fa-bitbucket" aria-hidden="true"></span>
+            </a>
+            <a href="https://www.linkedin.com/in/rdipardo" class="navicon" title="Find Robert Di Pardo on linkedin">
+              <span class="media-icon fa fa-linkedin-square" aria-hidden="true"></span>
+            </a>
+          </p>
+        </div>
+        <div class="stacked">
+          <p>
+            Site generated with 
+            <a href="https://ionide.io/Tools/fornax.html">
+              Fornax
+            </a>
+          </p>
+        </div>
+      </div>
+    </footer>
+    <script src="/js/bulma.js" defer="true"></script>
+    <script src="/js/replace_icon.js" defer="true"></script>
+  </body>
+</html>

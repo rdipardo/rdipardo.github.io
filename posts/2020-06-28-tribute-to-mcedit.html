@@ -18,6 +18,8 @@
     <link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap"/>
     <link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css2?family=Nunito&display=swap"/>
     <link rel="stylesheet" media="screen" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css"/>
+    <link rel="stylesheet" media="screen" href="/style/prism-compat-fixes.css"/>
+    <link rel="stylesheet" media="screen" href="/style/prism.css"/>
     <link rel="stylesheet" media="screen" href="/style/style.css"/>
     <style>.hero-body { height: 200px; }</style>
   </head>
@@ -38,11 +40,11 @@
           <a class="navbar-item" href="/">
             Blog
           </a>
-          <a class="navbar-item" href="/pages/about.html">
-            About
-          </a>
           <a class="navbar-item" href="/pages/contributions.html">
             Projects
+          </a>
+          <a class="navbar-item" href="/pages/about.html">
+            About
           </a>
         </div>
       </div>
@@ -78,42 +80,34 @@ With Debian stable at its core, this snappy little distro lets me assign my pref
 <pre><code class="language-shell">$ select-editor
 
 Select an editor.  To change later, run 'select-editor'.
-  1. /bin/nano        &lt;---- easiest
+  1. /bin/nano        <---- easiest
   2. /usr/bin/code
   3. /usr/bin/emacs25
   4. /usr/bin/mcedit
   5. /usr/bin/vim.basic
   6. /usr/bin/vim.tiny
 
-Choose 1-6 [1]:
-</code></pre>
+Choose 1-6 [1]:</code></pre>
 <p>There was a time, not long ago, when my first choice would have been #4 on the above list, namely, <a href="https://midnight-commander.org">Midnight Commander</a>'s built-in editor, <strong>mcedit</strong>. As an absolute beginner, I appreciated the curses menus and dialog boxes. I especially liked having a numbered function-key menu at the bottom of the screen. You may recognize this interface if you've ever used <strong>htop</strong>:</p>
 <p><img src="/images/posts/2020.06.28/midnight-commander-mcedit.png" alt="screen" /></p>
 <hr />
 <p>More recently, I've gotten used to <strong>vim</strong>. In fact, it's the current target of my <em>edit</em> symlink. But I'm still grateful to <strong>mcedit</strong> for providing a soft introduction to the world of terminal-based editors.</p>
 <p>Here are some custom mappings from my <em>.vimrc</em> file, inspired by <strong>mcedit</strong>'s function-key menu.</p>
 <p><em>To save the current buffer:</em></p>
-<pre><code class="language-vim">nnoremap &lt;F2&gt; :w %&lt;CR&gt;
-</code></pre>
+<pre><code class="language-vim">nnoremap <F2> :w %<CR></code></pre>
 <p>This next mapping is my invention, because I'm not sure what it's supposed to emulate. According to  <a href="https://midnight-commander.org/wiki/doc/editor/hotkeys"><strong>mc</strong>'s maintainers</a>, the default action of <code>F3</code> is moving the cursor to the <em>start</em> or (when <code>SHIFT</code>ed up) the <em>end</em> of a line. In <a href="https://packages.debian.org/buster/mc">my distro's default version</a> (4.8.22), however, <code>F3</code> simply toggles the open file's byte order mark. Let's put it to better use!</p>
 <p><em>To list all open buffers:</em></p>
-<pre><code class="language-vim">nnoremap &lt;F3&gt; :ls&lt;CR&gt;
-</code></pre>
+<pre><code class="language-vim">nnoremap <F3> :ls<CR></code></pre>
 <p><em>To copy the line under the cursor:</em></p>
-<pre><code class="language-vim">nnoremap &lt;F5&gt; vVy
-</code></pre>
+<pre><code class="language-vim">nnoremap <F5> vVy</code></pre>
 <p><em>. . . and paste it after the cursor:</em></p>
-<pre><code class="language-vim">nnoremap &lt;F6&gt; p
-</code></pre>
+<pre><code class="language-vim">nnoremap <F6> p</code></pre>
 <p><em>To delete the line under the cursor:</em></p>
-<pre><code class="language-vim">nnoremap &lt;F8&gt; dd
-</code></pre>
+<pre><code class="language-vim">nnoremap <F8> dd</code></pre>
 <p><em>. . . or, to delete the selected text:</em></p>
-<pre><code class="language-vim">vnoremap &lt;F8&gt; x
-</code></pre>
+<pre><code class="language-vim">vnoremap <F8> x</code></pre>
 <p><em>To save all buffers and exit:</em></p>
-<pre><code class="language-vim">nnoremap &lt;silent&gt; &lt;F10&gt; :set awa&lt;CR&gt;:qa&lt;CR&gt;
-</code></pre>
+<pre><code class="language-vim">nnoremap <silent> <F10> :set awa<CR>:qa<CR></code></pre>
 <p>Happy editing!</p>
 <hr />
 <p><strong>Note</strong></p>
@@ -172,6 +166,7 @@ Choose 1-6 [1]:
       </div>
     </footer>
     <script src="/js/bulma.js" defer="true"></script>
+    <script src="/js/prism.js" defer="true"></script>
     <script src="/js/replace_icon.js" defer="true"></script>
   </body>
 </html>

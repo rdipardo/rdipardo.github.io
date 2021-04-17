@@ -18,6 +18,8 @@
     <link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap"/>
     <link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css2?family=Nunito&display=swap"/>
     <link rel="stylesheet" media="screen" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css"/>
+    <link rel="stylesheet" media="screen" href="/style/prism-compat-fixes.css"/>
+    <link rel="stylesheet" media="screen" href="/style/prism.css"/>
     <link rel="stylesheet" media="screen" href="/style/style.css"/>
     <style>.hero-body { height: 200px; }</style>
   </head>
@@ -38,11 +40,11 @@
           <a class="navbar-item" href="/">
             Blog
           </a>
-          <a class="navbar-item" href="/pages/about.html">
-            About
-          </a>
           <a class="navbar-item" href="/pages/contributions.html">
             Projects
+          </a>
+          <a class="navbar-item" href="/pages/about.html">
+            About
           </a>
         </div>
       </div>
@@ -73,9 +75,9 @@
               </div>
               <div class="content article-body is-post">
                 <p>In this tutorial, I address the challenge of accurately responding to <em>double-click</em> events in JavaScript.</p>
-<h3>Problem</h3>
+<h3 id="problem">Problem</h3>
 <p>Assign two click-event handlers to the same HTML element, one for single <em>click</em>s, one for <em>double-click</em>s. The effects of one handler <strong>should not</strong> overlap with the effects of the second. In other words, the browser should know a single <em>click</em> from a <em>double-click</em>, and execute <strong>only one</strong> callback based on that input.</p>
-<h3>Obstacle</h3>
+<h3 id="obstacle">Obstacle</h3>
 <p>As far as browsers are concerned, a <em>double-click</em> is simply two <em>click</em>s that happen within a predetermined time interval. Even before the second <em>click</em> is registered, the event is handled like an ordinary single <em>click</em>. The time interval can vary across browsers, but the general sequence of events looks like this:</p>
 <pre><code>click! -&gt; single-click event -&gt; fire `onclick` handler -&gt; click! -&gt; double-click event -&gt; fire `ondblclick` handler
 
@@ -142,6 +144,7 @@
       </div>
     </footer>
     <script src="/js/bulma.js" defer="true"></script>
+    <script src="/js/prism.js" defer="true"></script>
     <script src="/js/replace_icon.js" defer="true"></script>
   </body>
 </html>

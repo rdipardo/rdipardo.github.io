@@ -18,6 +18,8 @@
     <link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap"/>
     <link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css2?family=Nunito&display=swap"/>
     <link rel="stylesheet" media="screen" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css"/>
+    <link rel="stylesheet" media="screen" href="/style/prism-compat-fixes.css"/>
+    <link rel="stylesheet" media="screen" href="/style/prism.css"/>
     <link rel="stylesheet" media="screen" href="/style/style.css"/>
     <style>.hero-body { height: 200px; }</style>
   </head>
@@ -38,11 +40,11 @@
           <a class="navbar-item" href="/">
             Blog
           </a>
-          <a class="navbar-item" href="/pages/about.html">
-            About
-          </a>
           <a class="navbar-item" href="/pages/contributions.html">
             Projects
+          </a>
+          <a class="navbar-item" href="/pages/about.html">
+            About
           </a>
         </div>
       </div>
@@ -72,9 +74,9 @@
                 </p>
               </div>
               <div class="content article-body is-post">
-                <p>In a [previous post][cross-ref], we saw that single-threaded execution makes it hard to distinguish a genuine <em>double-click</em> event from two, separate <em>click</em> events.</p>
+                <p>In a <a href="/posts/2020-05-18-click-evt-handling-in-js-part-1.html#main-content">previous post</a>, we saw that single-threaded execution makes it hard to distinguish a genuine <em>double-click</em> event from two, separate <em>click</em> events.</p>
 <p>Given this problem, could we ever set two different event handlers on the same HTML element, one just for <em>clicks</em>, the other just for <em>double-click</em>s?</p>
-<h3>A (potential) solution</h3>
+<h3 id="a-potential-solution">A (potential) solution</h3>
 <p>Here is a chance to leverage JavaScript's asynchronous features. Developers targeting <a href="https://caniuse.com/#feat=async-functions">browser's that support asynchronous functions</a> can delegate event-listening to a separate thread. Code running on this thread can inform the main thread about the type of event detected. The target thread can then decide what action to take.</p>
 <p>With this in mind, here's one approach to solving our event handling problem:</p>
 <pre><code class="language-javascript">/**
@@ -96,7 +98,7 @@ async function changeElement(node) {
     let doubleClickEvent = false;
 
     // the callback executed by `setTimeout()`
-    await sleep(200).then(() =&gt; doubleClickEvent = ClickWatcher.isDoubleClicked());
+    await sleep(200).then(() => doubleClickEvent = ClickWatcher.isDoubleClicked());
 
     if (!doubleClickEvent) {
         // handle a single-click event
@@ -114,12 +116,12 @@ async function changeBack(element) {
         // handle a double-click event
 
         // now forget the event
-        await sleep(200).then(() =&gt; ClickWatcher.reset());
+        await sleep(200).then(() => ClickWatcher.reset());
     } else {
         // this will cover us in case the user doesn't
         // click even once before double-clicking;
         // nothing was changed, so simply void this event
-        await sleep(200).then(() =&gt; ClickWatcher.reset());
+        await sleep(200).then(() => ClickWatcher.reset());
     }
 }
 
@@ -134,25 +136,24 @@ const ClickWatcher = (function () {
 
     return {
         // set our local variable
-        publishDoubleClick: () =&gt; doubleClick = true,
+        publishDoubleClick: () => doubleClick = true,
 
         // return the value of our local variable
-        isDoubleClicked: () =&gt; doubleClick,
+        isDoubleClicked: () => doubleClick,
 
-        reset: () =&gt; doubleClick = false
+        reset: () => doubleClick = false
     };
-})();
-</code></pre>
+})();</code></pre>
 <p>If you have a laptop and a mouse handy, you can try out <a href="/demos/js/dbclick-event-handling/"><strong>this quick demonstration</strong></a> to see if it works as expected.</p>
-<h4>Caveat</h4>
+<h4 id="caveat">Caveat</h4>
 <p>Since this topic only deals with mouse events, it should go without saying that only websites intended for <em><strong>desktop</strong></em> viewing can benefit from the above solution!</p>
 <hr />
-<h5>Acknowledgements</h5>
-<p>The <code>sleep()</code> function used above was devised by <a href="https://stackoverflow.com/users/1269037/dan-dascalescu">Dan Dascalescu</a> in [this posting][js_sleep_fn].</p>
-<h5>See also</h5>
+<h5 id="acknowledgements">Acknowledgements</h5>
+<p>The <code>sleep()</code> function used above was devised by <a href="https://stackoverflow.com/users/1269037/dan-dascalescu">Dan Dascalescu</a> in <a href="https://stackoverflow.com/a/39914235">this posting</a>.</p>
+<h5 id="see-also">See also</h5>
 <ul>
-<li>[Async Function Definitions][async-fns-spec] (ECMA-262, 8th edition, June 2017)</li>
-<li>Bevacqua, N. (2016), [“Understanding JavaScript’s async await”][async-fns-dev-perspective] [blog]</li>
+<li><a href="https://www.ecma-international.org/ecma-262/8.0/#sec-async-function-definitions">Async Function Definitions</a> (ECMA-262, 8th edition, June 2017)</li>
+<li>Bevacqua, N. (2016), <a href="https://ponyfoo.com/articles/understanding-javascript-async-await">“Understanding JavaScript’s async await”</a> [blog]</li>
 </ul>
 
               </div>
@@ -208,6 +209,7 @@ const ClickWatcher = (function () {
       </div>
     </footer>
     <script src="/js/bulma.js" defer="true"></script>
+    <script src="/js/prism.js" defer="true"></script>
     <script src="/js/replace_icon.js" defer="true"></script>
   </body>
 </html>

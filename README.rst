@@ -2,7 +2,7 @@
 rdipardo.github.io
 ##################
 
-This is the working tree from which I generate `my developer blog <https://heredocs.com>`_.
+This is the working tree from which I generate `my developer blog <https://heredocs.io>`_.
 
 Building Locally
 =================

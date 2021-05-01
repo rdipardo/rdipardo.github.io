@@ -6,6 +6,11 @@ permalink: /contribution
 
 ## Some projects I've worked on
 
+### [Fornax.Seo](https://www.nuget.org/packages/Fornax.Seo)
+
+A SEO meta tag generator for sites built with [Fornax][].
+See an example by inspecting this page's markup (<kbd>CTRL</kbd>+<kbd>U</kbd>).
+
 ### [lexilla](https://www.scintilla.org/LexillaHistory.html)
 
 A library of language lexers for use with the [Scintilla](https://www.scintilla.org)
@@ -25,3 +30,4 @@ Full-stack upgrade of the quality issues reporting system used at [Stackpole Int
 
 
 [lexer for F#]: https://github.com/ScintillaOrg/lexilla/blob/master/lexers/LexFSharp.cxx
+[Fornax]: https://ionide.io/Tools/fornax.html

@@ -1,28 +1,35 @@
 #r "../_lib/Fornax.Core.dll"
+#r "../_lib/Fornax.Seo.dll"
 
 open Html
+open Fornax.Seo
 
-type SiteAuthor = { name: string; email: string }
 type Attribution = { notice: string }
 
 type SiteInfo =
     { title: string
       canonical: string
-      headline: HtmlElement
+      headline: string
       description: string
-      author: SiteAuthor
+      author: ContentCreator
       credits: Attribution
       postPageSize: int }
 
 let loader (projectRoot: string) (siteContent: SiteContents) =
+    let onTheWeb =
+        [ "linkedin.com/in/rdipardo"
+          "bitbucket.org/rdipardo"
+          "dev.to/rdipardo" ]
+
     let siteInfo =
         { title = "Heredocs"
-          canonical = "https://rdipardo.github.io"
-          headline = !! ""
+          canonical = "https://heredocs.io"
+          headline = ""
           description = "Reflections, tips, and works in progress"
           author =
-              { name = "Robert Di Pardo"
-                email = "dipardo.r@gmail.com" }
+              { Name = "Robert Di Pardo"
+                Email = "dipardo.r@gmail.com"
+                SocialMedia = onTheWeb }
           credits =
               { notice = """
             <div>

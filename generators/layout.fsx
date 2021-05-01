@@ -1,4 +1,5 @@
 #r "../_lib/Fornax.Core.dll"
+#r "../_lib/Fornax.Seo.dll"
 
 #if !FORNAX
 #load "../loaders/postloader.fsx"
@@ -8,6 +9,7 @@
 #endif
 
 open Html
+open Fornax.Seo
 open System
 
 let private injectWebsocketCode (webpage: string) =
@@ -24,10 +26,12 @@ let private toDateString (date: DateTime option) =
 let layout (ctx: SiteContents) active bodyCnt =
     let pages = ctx.TryGetValues<Pageloader.Page>() |> Option.defaultValue Seq.empty
     let siteInfo = ctx.TryGetValue<Globalloader.SiteInfo>()
+    let siteAuthor = siteInfo |> Option.map (fun si -> si.author) |> Option.defaultValue ContentCreator.Default
+    let seoData = ctx.TryGetValues<ContentObject>() |> Option.defaultValue Seq.empty
     let baseUrl = siteInfo |> Option.map (fun si -> si.canonical) |> Option.defaultValue ""
     let ttl = siteInfo |> Option.map (fun si -> si.title) |> Option.defaultValue ""
-    let headline = siteInfo |> Option.map (fun si -> si.headline) |> Option.defaultValue !! ""
-    let desc = siteInfo |> Option.map (fun si -> si.description) |> Option.defaultValue ""
+    let headline = siteInfo |> Option.map (fun si -> si.headline) |> Option.defaultValue ""
+    let desc = siteInfo |> Option.map (fun si -> si.description) |> Option.defaultValue headline
 
     let subtitle =
         if String.IsNullOrEmpty(active) then
@@ -39,47 +43,6 @@ let layout (ctx: SiteContents) active bodyCnt =
         siteInfo
         |> Option.map (fun si -> si.credits)
         |> Option.defaultValue { notice = "" }
-
-    let siteAuthor =
-        siteInfo
-        |> Option.map (fun si -> si.author)
-        |> Option.defaultValue { name = ""; email = "" }
-
-    let socialMedia =
-        let sites = ctx.TryGetValues<Linkloader.Link>() |> Option.defaultValue Seq.empty
-
-        sites
-        |> Seq.map (
-            (fun s ->
-                match s.site.ToLower() with
-                | "github" -> "fa-github"
-                | "gitlab" -> "fa-gitlab"
-                | "bitbucket" -> "fa-bitbucket"
-                | "linkedin" -> "fa-linkedin-square"
-                | "twitter" -> "fa-twitter"
-                | "facebook" -> "fa-facebook-official"
-                | "reddit" -> "fa-reddit"
-                | "instagram" -> "fa-instagram"
-                | "tumblr" -> "fa-tumblr-square"
-                | "deviantart" -> "fa-deviantart"
-                | _ -> ""
-                |> (fun (s: Linkloader.Link) t -> (s.target, t)) s)
-            >> (fun s ->
-                let siteName = (snd s).Split('-')
-                let site = Array.tryHead siteName.[1..]
-
-                a [ Href(fst s)
-                    Class "navicon"
-                    HtmlProperties.Title(
-                        site
-                        |> function
-                        | Some s -> (sprintf "Find %s on %s" siteAuthor.name s)
-                        | None -> ""
-                    ) ] [
-                    span [ Class(sprintf "media-icon fa %s" (snd s)); Custom("aria-hidden", "true") ] []
-                ])
-        )
-        |> Seq.toList
 
     let menuEntries =
         let paths = pages |> Seq.sortBy (fun p -> p.link)
@@ -95,6 +58,20 @@ let layout (ctx: SiteContents) active bodyCnt =
                 a [ Class cls; Href p.link ] [ !!p.title ])
         |> Seq.toList
 
+    let pageMeta =
+        seoData
+        |> Seq.tryFind (fun p -> p.Title.Contains(active))
+        |> function
+        | Some info -> info
+        | _ ->
+            { ContentObject.Default with
+                  Title = ttl
+                  Description = desc
+                  BaseUrl = baseUrl
+                  SiteName = Some ttl
+                  Headline = Some headline
+                  Author = siteAuthor
+                  Locale = Some "en-ca" }
     let footer =
         seq {
             footer [ Class "is-dark" ] [
@@ -102,11 +79,11 @@ let layout (ctx: SiteContents) active bodyCnt =
                     div [ Class "stacked" ] [
                         p [] [
                             !!(sprintf "&copy;&nbsp;%d&nbsp;" DateTime.Now.Year)
-                            a [ Href(sprintf "mailto:%s" siteAuthor.email) ] [ !!siteAuthor.name ]
+                            !!siteAuthor.Name
                         ]
                         !!attribution.notice
                     ]
-                    div [ Class "stacked" ] [ p [ Class "contact" ] socialMedia ]
+                    div [ Class "stacked" ] [ p [ Class "contact" ] [ yield! socialMedia siteAuthor ] ]
                     div [ Class "stacked" ] [
                         p [] [
                             !! "Site generated with "
@@ -129,14 +106,7 @@ let layout (ctx: SiteContents) active bodyCnt =
             meta [ CharSet "utf-8" ]
             meta [ Name "viewport"; Content "width=device-width, initial-scale=1" ]
             title [] [ !!($"{ttl}{subtitle}") ]
-            meta [ Name "generator"; Content "fornax" ]
-            meta [ Property "og:title"; Content ttl ]
-            meta [ Property "og:site_name"; Content ttl ]
-            meta [ Property "og:url"; Content baseUrl ]
-            meta [ Name "author"; Content siteAuthor.name ]
-            meta [ Name "description"; Content desc ]
-            meta [ Property "og:description"; Content desc ]
-            link [ Rel "canonical"; Href baseUrl ]
+            yield! seo pageMeta
             link [ Rel "icon"
                    HtmlProperties.Type "image/x-icon"
                    Sizes "32x32"
@@ -153,7 +123,7 @@ let layout (ctx: SiteContents) active bodyCnt =
             link [ Rel "stylesheet"; Media "screen"; Href "/style/prism-compat-fixes.css" ]
             link [ Rel "stylesheet"; Media "screen"; Href "/style/prism.css" ]
             link [ Rel "stylesheet"; Media "screen"; Href "/style/style.css" ]
-            (if String.IsNullOrEmpty((HtmlElement.ToString headline).Trim()) then
+            (if String.IsNullOrEmpty(headline.Trim()) then
                  !! """<style>.hero-body { height: 200px; }</style>"""
              else
                  !! "")

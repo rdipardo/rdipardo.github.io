@@ -16,7 +16,7 @@ let private generate' (ctx: SiteContents) (page: string) =
     let headline =
         siteInfo
         |> Option.map (fun si -> si.headline)
-        |> Option.defaultValue !! ""
+        |> Option.defaultValue ""
 
     doc |> function
     | None -> html [] [ head [] [ string "" ]; body [] [] ]
@@ -27,7 +27,7 @@ let private generate' (ctx: SiteContents) (page: string) =
             [ section [ Class "hero is-info is-medium is-bold" ] [
                 div [ Class "hero-body" ] [
                     div [ Class "container has-text-centered" ] [
-                        h1 [ Class "title" ] [ headline ]
+                        h1 [ Class "title" ] [ !! headline ]
                     ]
                 ]
               ]

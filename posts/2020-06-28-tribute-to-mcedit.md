@@ -39,7 +39,7 @@ Here are some custom mappings from my *.vimrc* file, inspired by **mcedit**'s fu
 *To save the current buffer:*
 
 ```vim
-nnoremap <F2> :w %<CR>
+nnoremap &lt;F2&gt; :w %&lt;CR&gt;
 ```
 
 This next mapping is my invention, because I'm not sure what it's supposed to emulate. According to  [**mc**'s maintainers](https://midnight-commander.org/wiki/doc/editor/hotkeys), the default action of `F3` is moving the cursor to the *start* or (when `SHIFT`ed up) the *end* of a line. In [my distro's default version](https://packages.debian.org/buster/mc) (4.8.22), however, `F3` simply toggles the open file's byte order mark. Let's put it to better use!
@@ -47,37 +47,37 @@ This next mapping is my invention, because I'm not sure what it's supposed to em
 *To list all open buffers:*
 
 ```vim
-nnoremap <F3> :ls<CR>
+nnoremap &lt;F3&gt; :ls&lt;CR&gt;
 ```
 
 *To copy the line under the cursor:*
 
 ```vim
-nnoremap <F5> vVy
+nnoremap &lt;F5&gt; vVy
 ```
 
 *. . . and paste it after the cursor:*
 
 ```vim
-nnoremap <F6> p
+nnoremap &lt;F6&gt; p
 ```
 
 *To delete the line under the cursor:*
 
 ```vim
-nnoremap <F8> dd
+nnoremap &lt;F8&gt; dd
 ```
 
 *. . . or, to delete the selected text:*
 
 ```vim
-vnoremap <F8> x
+vnoremap &lt;F8&gt; x
 ```
 
 *To save all buffers and exit:*
 
 ```vim
-nnoremap <silent> <F10> :set awa<CR>:qa<CR>
+nnoremap &lt;silent&gt; &lt;F10&gt; :set awa&lt;CR&gt;:qa&lt;CR&gt;
 ```
 
 Happy editing!

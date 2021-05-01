@@ -7,7 +7,7 @@ let private generate' (ctx: SiteContents) (_: string) =
     let posts = ctx.TryGetValues<Postloader.Post>() |> Option.defaultValue Seq.empty
     let siteInfo = ctx.TryGetValue<Globalloader.SiteInfo>()
     let postPageSize = siteInfo |> Option.map (fun si -> si.postPageSize) |> Option.defaultValue 10
-    let headline = siteInfo |> Option.map (fun si -> si.headline) |> Option.defaultValue !! ""
+    let headline = siteInfo |> Option.map (fun si -> si.headline) |> Option.defaultValue ""
 
     let blogs =
         posts
@@ -31,7 +31,7 @@ let private generate' (ctx: SiteContents) (_: string) =
             [ section [ Class "hero is-info is-medium is-bold" ] [
                 div [ Class "hero-body" ] [
                     div [ Class "container has-text-centered" ] [
-                        h1 [ Class "title" ] [ headline ]
+                        h1 [ Class "title" ] [ !! headline ]
                     ]
                 ]
               ]

@@ -15,11 +15,11 @@ type Post =
     { file: string
       link: string
       title: string
+      image: string option
       author: string option
       published: DateTime option
       updated: DateTime option
       tags: string list
-      categories: string list
       content: string
       summary: string }
 
@@ -48,6 +48,9 @@ let loadFile n =
     let link = sprintf "/%s.html" path
     let title = config |> Map.find "title" |> trimString
 
+    let image =
+        config |> Map.tryFind "image" |> Option.map trimString
+
     let author =
         config |> Map.tryFind "author" |> Option.map trimString
 
@@ -68,28 +71,19 @@ let loadFile n =
         |> trimString
 
     let tags =
-        let tagsOpt =
-            config
-            |> Map.tryFind "tags"
-            |> Option.map (trimString >> fun n -> n.Split ',' |> Array.toList)
-
-        defaultArg tagsOpt []
-
-    let categories =
-        defaultArg
-        <| (config
-            |> Map.tryFind "categories"
-            |> Option.map (trimString >> fun n -> n.Split ' ' |> Array.toList))
-        <| []
+        config
+        |> Map.tryFind "tags"
+        |> Option.map (trimString >> fun n -> n.Split ',' |> Array.toList)
+        |> Option.defaultValue []
 
     { file = file
       link = link
       title = title
+      image = image
       author = author
       published = published
       updated = updated
       tags = tags
-      categories = categories
       content = content
       summary = summary }
 
